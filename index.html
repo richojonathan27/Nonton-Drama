@@ -1,21 +1,41 @@
-<script>
-  async function bukaPlayer(idDrama) {
-    // Menampilkan loading
-    document.getElementById('status-api').innerText = "Sedang mengambil link VIP...";
-    
-    try {
-      // Memanggil API buatan kita di folder /api/get-video.js
-      const response = await fetch(`/api/get-video?bookId=${idDrama}`);
-      const data = await response.json();
-      
-      if (data.videoUrl) {
-        const video = document.getElementById('video-player');
-        video.src = data.videoUrl;
-        video.play();
-        document.getElementById('status-api').style.display = "none";
-      }
-    } catch (error) {
-      alert("Gagal memutar video.");
-    }
-  }
-</script>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Nonton-Drama</title>
+    <style>
+        body { background: #0d0d0c; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .btn { background: #E50914; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        video { width: 80%; margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+    <h1>Nonton-Drama VIP</h1>
+    <button class="btn" onclick="putarVideo('41000104882')">Putar Drama Contoh</button>
+    <p id="status"></p>
+    <video id="player" controls></video>
+
+    <script>
+        async function putarVideo(id) {
+            const status = document.getElementById('status');
+            const player = document.getElementById('player');
+            status.innerText = "⏳ Sedang mengambil video...";
+            
+            try {
+                const res = await fetch(`/api/get-video?bookId=${id}`);
+                const data = await res.json();
+                if (data.success) {
+                    status.innerText = "✅ Berhasil!";
+                    player.src = data.videoUrl;
+                    player.style.display = "block";
+                    player.play();
+                } else {
+                    status.innerText = "❌ Gagal: " + data.error;
+                }
+            } catch (e) {
+                status.innerText = "❌ Terjadi kesalahan jaringan.";
+            }
+        }
+    </script>
+</body>
+</html>
