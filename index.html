@@ -1,106 +1,21 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nonton-Drama by Smart</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #0d0d0c; color: #ffffff; overflow-x: hidden; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: rgba(0,0,0,0.9); position: fixed; width: 100%; z-index: 100; }
-        .logo { color: #fff; font-size: 24px; font-weight: 800; }
-        .logo span { color: #E50914; }
-        .hero { position: relative; height: 80vh; display: flex; align-items: center; padding: 0 4%; background-size: cover; background-position: center top; transition: 0.5s; }
-        .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #0d0d0c, transparent); }
-        .hero-content { position: relative; z-index: 2; max-width: 600px; }
-        .btn-play { background: #fff; color: #000; border: none; padding: 12px 30px; font-weight: 700; border-radius: 6px; cursor: pointer; }
-        .row { padding: 20px 4%; }
-        .slider { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
-        .card { min-width: 160px; cursor: pointer; }
-        .card img { width: 100%; height: 230px; object-fit: cover; border-radius: 8px; background: #222; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
-        .modal.active { display: flex; }
-        video { width: 90%; max-width: 800px; border-radius: 12px; }
-        #status-api { margin-bottom: 10px; color: #facc15; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="logo">Nonton<span>-Drama</span></div>
-    </nav>
-
-    <div class="hero" id="hero-banner" style="background-image: url('https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg');">
-        <div class="hero-content">
-            <h1 id="hero-title">Gadis Lugu Penakluk Raja Mafia</h1>
-            <p id="hero-desc" style="margin: 15px 0;">Drama pilihan terbaik untuk Anda hari ini.</p>
-            <button class="btn-play" id="btn-play-utama" onclick="bukaPlayer('41000104882')">▶ Play Now</button>
-        </div>
-    </div>
-
-    <div class="row">
-        <h2>Drama Pilihan</h2>
-        <div class="slider" id="row-drama"></div>
-    </div>
-
-    <div class="modal" id="videoModal">
-        <div id="status-api"></div>
-        <video id="video-player" controls></video>
-        <button onclick="tutupPlayer()" style="margin-top:20px; color:#fff; background:none; border:1px solid #fff; padding:5px 15px; cursor:pointer;">Tutup</button>
-    </div>
-
-    <script>
-        const daftarDrama = [
-            { bookId: "41000104882", judul: "Gadis Lugu Penakluk Raja Mafia", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg" },
-            { bookId: "41000119583", judul: "Cerita Cinta Cheerleader", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119583/41000119583.jpg" },
-            { bookId: "41000119254", judul: "Ciumanmu Mengubah Duniaku", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119254/41000119254.jpg" }
-        ];
-
-        const container = document.getElementById('row-drama');
-        daftarDrama.forEach(d => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `<img src="${d.cover}"><p>${d.judul}</p>`;
-            card.onclick = () => {
-                document.getElementById('hero-banner').style.backgroundImage = `url('${d.cover}')`;
-                document.getElementById('hero-title').innerText = d.judul;
-                document.getElementById('btn-play-utama').setAttribute('onclick', `bukaPlayer('${d.bookId}')`);
-            };
-            container.appendChild(card);
-        });
-
-        async function bukaPlayer(id) {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('video-player');
-            const status = document.getElementById('status-api');
-            modal.classList.add('active');
-            status.innerText = "⏳ Mencoba memuat video...";
-
-            try {
-                const res = await fetch(`/api/get-video?bookId=${id}`);
-                const data = await res.json();
-                if(data.success) {
-                    player.src = data.videoUrl;
-                    status.innerText = "✅ Video ditemukan!";
-                } else {
-                    throw new Error();
-                }
-            } catch {
-                status.style.color = "red";
-                status.innerText = "⚠️ Server Utama Sibuk. Memutar Video Cadangan...";
-                player.src = "https://media.w3.org/2010/05/sintel/trailer.mp4";
-            }
-            player.load();
-            player.play();
-        }
-
-        function tutupPlayer() {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('video-player');
-            modal.classList.remove('active');
-            player.pause();
-        }
-    </script>
-</body>
-</html>
+<script>
+  async function bukaPlayer(idDrama) {
+    // Menampilkan loading
+    document.getElementById('status-api').innerText = "Sedang mengambil link VIP...";
+    
+    try {
+      // Memanggil API buatan kita di folder /api/get-video.js
+      const response = await fetch(`/api/get-video?bookId=${idDrama}`);
+      const data = await response.json();
+      
+      if (data.videoUrl) {
+        const video = document.getElementById('video-player');
+        video.src = data.videoUrl;
+        video.play();
+        document.getElementById('status-api').style.display = "none";
+      }
+    } catch (error) {
+      alert("Gagal memutar video.");
+    }
+  }
+</script>
