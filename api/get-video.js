@@ -1,62 +1,35 @@
-import axios from 'axios';
+// Gunakan logika dari link-stream.js dan get-token.js
+const axios = require('axios');
 
-export default async function handler(req, res) {
-  const { bookId, episode = 1 } = req.query;
-
-  if (!bookId) {
-    return res.status(400).json({ success: false, error: "bookId wajib diisi!" });
-  }
+module.exports = async function handler(req, res) {
+  const { bookId } = req.query; // Mengambil ID drama yang diklik user
 
   try {
-    // 1. Meminta Kunci Token Baru
+    // 1. Ambil Token (Logika dari get-token.js)
     const tokenRes = await axios.get("https://dramabox-token.vercel.app/token");
-    const { token, deviceid } = tokenRes.data;
+    const auth = tokenRes.data;
 
-    // 2. Menyamar Menjadi HP Android (Spoofing Headers)
+    // 2. Ambil Link Stream (Logika dari link-stream.js)
     const url = "https://sapi.dramaboxdb.com/drama-box/chapterv2/batch/load";
     const headers = {
       "User-Agent": "okhttp/4.10.0",
-      "Accept-Encoding": "gzip",
-      "Content-Type": "application/json",
-      "tn": `Bearer ${token}`,
-      "version": "430",
-      "vn": "4.3.0",
-      "cid": "DRA1000000",
+      "tn": `Bearer ${auth.token}`,
+      "device-id": auth.deviceid,
       "package-name": "com.storymatrix.drama",
-      "apn": "1",
-      "device-id": deviceid,
-      "language": "in",
-      "current-language": "in",
-      "p": "43",
-      "time-zone": "+0800"
+      "Content-Type": "application/json"
     };
 
     const data = {
-      boundaryIndex: 0,
-      comingPlaySectionId: -1,
-      index: parseInt(episode),
-      currencyPlaySource: "discover_new_rec_new",
-      needEndRecommend: 0,
-      currencyPlaySourceName: "",
-      preLoad: false,
-      rid: "",
-      pullCid: "",
-      loadDirection: 0,
-      startUpKey: "",
-      bookId: bookId
+      index: 1, // Episode 1
+      bookId: bookId // Menggunakan ID dinamis
     };
 
-    // 3. Tembak Server DramaBox
-    const dbRes = await axios.post(url, data, { headers });
+    const streamRes = await axios.post(url, data, { headers });
+    const videoUrl = streamRes.data.data.chapterList[0].cdnList[0];
 
-    // 4. Tangkap Link MP4-nya
-    const videoUrl = dbRes.data.data.chapterList[0].cdnList[0];
-
-    // 5. Kirim Link Kembali ke Web Browser-mu
-    return res.status(200).json({ success: true, videoUrl });
-    
+    // Kirim hasilnya ke website
+    res.status(200).json({ videoUrl });
   } catch (error) {
-    console.error("Gagal menembus API:", error.message);
-    return res.status(500).json({ success: false, error: "Server Video Sedang Sibuk / Gagal Memuat" });
+    res.status(500).json({ error: "Gagal memuat video" });
   }
-}
+};
