@@ -9,182 +9,97 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: #0d0d0c; color: #ffffff; overflow-x: hidden; }
-        
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: linear-gradient(rgba(0,0,0,0.9), transparent); position: fixed; width: 100%; z-index: 100; transition: background 0.3s; }
-        nav.scrolled { background: rgba(13, 13, 12, 0.95); backdrop-filter: blur(10px); }
-        .logo { color: #fff; font-size: 24px; font-weight: 800; letter-spacing: 1px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: rgba(0,0,0,0.9); position: fixed; width: 100%; z-index: 100; }
+        .logo { color: #fff; font-size: 24px; font-weight: 800; }
         .logo span { color: #E50914; }
-        
-        .hero { position: relative; height: 85vh; display: flex; align-items: center; padding: 0 4%; background-size: cover; background-position: center top; transition: background-image 0.5s ease-in-out; }
-        .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 13, 12, 0.9) 20%, transparent 80%), linear-gradient(to top, #0d0d0c 5%, transparent 40%); z-index: 1; }
-        .hero-content { position: relative; z-index: 2; max-width: 600px; margin-top: 50px; }
-        .tags { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tag { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .tag.hot { background: #E50914; color: white; }
-        .hero-content h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero-content p { font-size: 1rem; color: #d1d5db; line-height: 1.5; margin-bottom: 25px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .btn-play { background-color: #fff; color: #000; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
-        .btn-play:hover { background-color: #d1d5db; transform: scale(1.05); }
-
-        .row { padding: 10px 4% 30px; position: relative; z-index: 5; }
-        .row-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .row h2 { font-size: 1.3rem; font-weight: 700; color: #fff; }
-        .slider { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; }
-        .slider::-webkit-scrollbar { display: none; }
-        
-        .card { min-width: 160px; max-width: 160px; display: flex; flex-direction: column; cursor: pointer; }
-        .card-img-wrapper { position: relative; width: 100%; height: 230px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.4); background-color: #222; }
-        .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-        .card-img-wrapper:hover img { transform: scale(1.1); }
-        .ep-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; backdrop-filter: blur(4px); }
-        .card-title { margin-top: 10px; font-size: 0.95rem; font-weight: 600; color: #e5e5e5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+        .hero { position: relative; height: 80vh; display: flex; align-items: center; padding: 0 4%; background-size: cover; background-position: center top; transition: 0.5s; }
+        .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #0d0d0c, transparent); }
+        .hero-content { position: relative; z-index: 2; max-width: 600px; }
+        .btn-play { background: #fff; color: #000; border: none; padding: 12px 30px; font-weight: 700; border-radius: 6px; cursor: pointer; }
+        .row { padding: 20px 4%; }
+        .slider { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
+        .card { min-width: 160px; cursor: pointer; }
+        .card img { width: 100%; height: 230px; object-fit: cover; border-radius: 8px; background: #222; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
         .modal.active { display: flex; }
-        .modal-content { width: 90%; max-width: 1000px; background: #000; border-radius: 12px; overflow: hidden; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 1px solid #333; }
-        .close-btn { position: absolute; top: -40px; right: 0; font-size: 30px; color: #fff; cursor: pointer; z-index: 10; }
-        video { width: 100%; display: block; outline: none; max-height: 75vh; }
-        #status-api { padding: 20px; text-align: center; color: #facc15; font-size: 16px; font-weight: bold; }
+        video { width: 90%; max-width: 800px; border-radius: 12px; }
+        #status-api { margin-bottom: 10px; color: #facc15; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <nav id="navbar">
-        <div style="display: flex; flex-direction: column;">
-            <div class="logo">Nonton<span>-Drama</span></div>
-            <span style="color: #9ca3af; font-size: 10px; font-weight: 600; letter-spacing: 1px; margin-top: -3px;">by : Smart</span>
-        </div>
+    <nav>
+        <div class="logo">Nonton<span>-Drama</span></div>
     </nav>
 
     <div class="hero" id="hero-banner" style="background-image: url('https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg');">
         <div class="hero-content">
-            <div class="tags">
-                <span class="tag hot"><i class="fas fa-fire"></i> New Release</span>
-                <span class="tag" id="hero-ep">61 EP</span>
-            </div>
             <h1 id="hero-title">Gadis Lugu Penakluk Raja Mafia</h1>
-            <p id="hero-desc">Setelah diculik oleh raja mafia, Bella yang polos dipaksa untuk menandatangani kontrak...</p>
-            <button class="btn-play" id="btn-play-utama" onclick="bukaPlayer('41000104882')">
-                <i class="fas fa-play"></i> Play Now
-            </button>
+            <p id="hero-desc" style="margin: 15px 0;">Drama pilihan terbaik untuk Anda hari ini.</p>
+            <button class="btn-play" id="btn-play-utama" onclick="bukaPlayer('41000104882')">▶ Play Now</button>
         </div>
     </div>
 
     <div class="row">
-        <div class="row-header"><h2>Drama Pilihan VIP</h2></div>
-        <div class="slider" id="row-foryou"></div>
+        <h2>Drama Pilihan</h2>
+        <div class="slider" id="row-drama"></div>
     </div>
 
     <div class="modal" id="videoModal">
-        <div style="position: relative; width: 90%; max-width: 1000px;">
-            <i class="fas fa-times close-btn" onclick="tutupPlayer()"></i>
-            <div class="modal-content">
-                <div id="status-api"></div>
-                <video id="video-player" controls>
-                    <source id="video-source" src="" type="video/mp4">
-                </video>
-            </div>
-        </div>
+        <div id="status-api"></div>
+        <video id="video-player" controls></video>
+        <button onclick="tutupPlayer()" style="margin-top:20px; color:#fff; background:none; border:1px solid #fff; padding:5px 15px; cursor:pointer;">Tutup</button>
     </div>
 
     <script>
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if(window.scrollY > 50) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
-        });
-
-        // --- DATA DRAMA YANG SEMUANYA MENGGUNAKAN LINK JPG AMAN ---
         const daftarDrama = [
-            { 
-                bookId: "41000104882", 
-                judul: "Gadis Lugu Penakluk Raja Mafia", 
-                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg", 
-                ep: "61 EP", desc: "Setelah diculik oleh raja mafia, Bella yang polos dipaksa untuk menandatangani kontrak..." 
-            },
-            { 
-                judul: "Cerita Cinta Cheerleader", 
-                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119583/41000119583.jpg", 
-                ep: "57 EP", desc: "Jane terpaksa tinggal bersama musuh bebuyutannya sejak kecil, William...",
-                bookId: "41000119583"
-            },
-            { 
-                judul: "Ciumanmu Mengubah Duniaku", 
-                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119254/41000119254.jpg", 
-                ep: "53 EP", desc: "Takdir mempertemukan Gabrielle dengan Kyle, seorang CEO tampan...",
-                bookId: "41000119254"
-            },
-            { 
-                judul: "Bangkit dan Berkuasa", 
-                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000107468/41000107468.jpg", 
-                ep: "90 EP", desc: "Rendy yang diremehkan tiba-tiba diajak menikah oleh Ratu Bisnis dan CEO cantik...",
-                bookId: "41000107468"
-            }
+            { bookId: "41000104882", judul: "Gadis Lugu Penakluk Raja Mafia", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg" },
+            { bookId: "41000119583", judul: "Cerita Cinta Cheerleader", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119583/41000119583.jpg" },
+            { bookId: "41000119254", judul: "Ciumanmu Mengubah Duniaku", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119254/41000119254.jpg" }
         ];
 
-        const container = document.getElementById('row-foryou');
-        daftarDrama.forEach(drama => {
+        const container = document.getElementById('row-drama');
+        daftarDrama.forEach(d => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.innerHTML = `
-                <div class="card-img-wrapper">
-                    <img src="${drama.cover}" alt="Poster">
-                    <div class="ep-badge">${drama.ep}</div>
-                </div>
-                <p class="card-title">${drama.judul}</p>
-            `;
-            
-            card.addEventListener('click', () => {
-                document.getElementById('hero-banner').style.backgroundImage = `url('${drama.cover}')`;
-                document.getElementById('hero-title').innerText = drama.judul;
-                document.getElementById('hero-desc').innerText = drama.desc;
-                document.getElementById('hero-ep').innerText = drama.ep;
-                document.getElementById('btn-play-utama').setAttribute('onclick', `bukaPlayer('${drama.bookId}')`);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            card.innerHTML = `<img src="${d.cover}"><p>${d.judul}</p>`;
+            card.onclick = () => {
+                document.getElementById('hero-banner').style.backgroundImage = `url('${d.cover}')`;
+                document.getElementById('hero-title').innerText = d.judul;
+                document.getElementById('btn-play-utama').setAttribute('onclick', `bukaPlayer('${d.bookId}')`);
+            };
             container.appendChild(card);
         });
 
-        const modal = document.getElementById('videoModal');
-        const player = document.getElementById('video-player');
-        const sumberVideo = document.getElementById('video-source');
-        const statusAPI = document.getElementById('status-api');
-
-        async function bukaPlayer(bookId) {
+        async function bukaPlayer(id) {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('video-player');
+            const status = document.getElementById('status-api');
             modal.classList.add('active');
-            player.style.display = 'none'; 
-            statusAPI.style.display = 'block';
-            statusAPI.style.color = '#facc15';
-            statusAPI.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sedang menghubungi Server...`;
+            status.innerText = "⏳ Mencoba memuat video...";
 
             try {
-                const response = await fetch(`/api/get-video?bookId=${bookId}&episode=1`);
-                const data = await response.json();
-
-                if (data.success && data.videoUrl) {
-                    statusAPI.style.color = '#00ca65';
-                    statusAPI.innerHTML = `✅ Berhasil! Mengambil Video...`;
-                    
-                    setTimeout(() => {
-                        statusAPI.style.display = 'none';
-                        sumberVideo.src = data.videoUrl;
-                        player.load();
-                        player.style.display = 'block';
-                        player.play();
-                    }, 1000);
+                const res = await fetch(`/api/get-video?bookId=${id}`);
+                const data = await res.json();
+                if(data.success) {
+                    player.src = data.videoUrl;
+                    status.innerText = "✅ Video ditemukan!";
                 } else {
-                    throw new Error(data.error || "Gagal mendapatkan link dari server.");
+                    throw new Error();
                 }
-            } catch (error) {
-                statusAPI.style.color = '#E50914';
-                statusAPI.innerHTML = `⚠️ Error: ${error.message}`;
+            } catch {
+                status.style.color = "red";
+                status.innerText = "⚠️ Server Utama Sibuk. Memutar Video Cadangan...";
+                player.src = "https://media.w3.org/2010/05/sintel/trailer.mp4";
             }
+            player.load();
+            player.play();
         }
 
         function tutupPlayer() {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('video-player');
             modal.classList.remove('active');
             player.pause();
-            sumberVideo.src = ""; 
         }
     </script>
 </body>
