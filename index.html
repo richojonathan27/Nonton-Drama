@@ -10,13 +10,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: #0d0d0c; color: #ffffff; overflow-x: hidden; }
         
-        /* Navbar */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: linear-gradient(rgba(0,0,0,0.9), transparent); position: fixed; width: 100%; z-index: 100; transition: background 0.3s; }
         nav.scrolled { background: rgba(13, 13, 12, 0.95); backdrop-filter: blur(10px); }
         .logo { color: #fff; font-size: 24px; font-weight: 800; letter-spacing: 1px; }
         .logo span { color: #E50914; }
         
-        /* Hero Banner */
         .hero { position: relative; height: 85vh; display: flex; align-items: center; padding: 0 4%; background-size: cover; background-position: center top; transition: background-image 0.5s ease-in-out; }
         .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 13, 12, 0.9) 20%, transparent 80%), linear-gradient(to top, #0d0d0c 5%, transparent 40%); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 600px; margin-top: 50px; }
@@ -28,7 +26,6 @@
         .btn-play { background-color: #fff; color: #000; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: 700; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
         .btn-play:hover { background-color: #d1d5db; transform: scale(1.05); }
 
-        /* Rows */
         .row { padding: 10px 4% 30px; position: relative; z-index: 5; }
         .row-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .row h2 { font-size: 1.3rem; font-weight: 700; color: #fff; }
@@ -42,7 +39,6 @@
         .ep-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; padding: 3px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; backdrop-filter: blur(4px); }
         .card-title { margin-top: 10px; font-size: 0.95rem; font-weight: 600; color: #e5e5e5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* Video Modal */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
         .modal.active { display: flex; }
         .modal-content { width: 90%; max-width: 1000px; background: #000; border-radius: 12px; overflow: hidden; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 1px solid #333; }
@@ -60,15 +56,15 @@
         </div>
     </nav>
 
-    <div class="hero" id="hero-banner" style="background-image: url('https://p19-novel-sign-sg.fizzopic.org/novel-images-sg/d61e0868a52eae766ce4cd0be4d7ae1f~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1772669746&x-signature=DsypsOkpDvu1TvIk6CLEslvg864%3D');">
+    <div class="hero" id="hero-banner" style="background-image: url('https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg');">
         <div class="hero-content">
             <div class="tags">
                 <span class="tag hot"><i class="fas fa-fire"></i> New Release</span>
-                <span class="tag" id="hero-ep">75 EP</span>
+                <span class="tag" id="hero-ep">61 EP</span>
             </div>
-            <h1 id="hero-title">Istriku Multitalenta</h1>
-            <p id="hero-desc">Ayu menemukan Angga yang terluka parah di desa. Setelah operasi...</p>
-            <button class="btn-play" id="btn-play-utama" onclick="bukaPlayer('7602908037468146693')">
+            <h1 id="hero-title">Gadis Lugu Penakluk Raja Mafia</h1>
+            <p id="hero-desc">Setelah diculik oleh raja mafia, Bella yang polos dipaksa untuk menandatangani kontrak...</p>
+            <button class="btn-play" id="btn-play-utama" onclick="bukaPlayer('41000104882')">
                 <i class="fas fa-play"></i> Play Now
             </button>
         </div>
@@ -92,20 +88,38 @@
     </div>
 
     <script>
-        // Efek Navbar
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if(window.scrollY > 50) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
         });
 
-        // Data Drama
+        // --- DATA DRAMA YANG SEMUANYA MENGGUNAKAN LINK JPG AMAN ---
         const daftarDrama = [
-            { bookId: "7602908037468146693", judul: "Istriku Multitalenta", cover: "https://p19-novel-sign-sg.fizzopic.org/novel-images-sg/d61e0868a52eae766ce4cd0be4d7ae1f~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1772669746&x-signature=DsypsOkpDvu1TvIk6CLEslvg864%3D", ep: "75 EP", desc: "Ayu menemukan Angga yang terluka parah di desa. Setelah operasi..." },
-            { bookId: "7603616055197453317", judul: "Putra Terbuang Jadi Pahlawan", cover: "https://p19-novel-sign-sg.fizzopic.org/novel-images-sg/03def24687aa8e549f0f6ff1dac08e41~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1772669746&x-signature=sXWZKZu0rjpklbezMNhD2CIhUEI%3D", ep: "80 EP", desc: "Jorda menembus waktu dan menjadi putra Keluarga Lintara yang diusir..." },
-            { bookId: "7602855039975033861", judul: "Suamiku Bisa Dengar Isi Hatiku", cover: "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/93a91bb1c7ce79350d19b48091540b86~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1772669746&x-signature=O%2BrcOstppjjjyxvK25kN3WexeUI%3D", ep: "81 EP", desc: "Putri Ayu bereinkarnasi menjadi istri buangan keluarga kaya..." },
-            { bookId: "7600002690927578117", judul: "Ayah Super Keluarga Bahagia", cover: "https://p16-novel-sign-sg.fizzopic.org/novel-images-sg/e35235ee9820ca8d8e0852bf71b5615e~tplv-resize:570:810.heic?rk3s=95ec04ee&x-expires=1772669746&x-signature=u6BP%2FNXXIMKc%2Ffh7lh8dGAoT6gE%3D", ep: "82 EP", desc: "Rizky Pratama tiba-tiba menjadi ayah super setelah Putri Ayu hamil..." },
-            { bookId: "41000104882", judul: "Gadis Lugu Penakluk Raja Mafia", cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg", ep: "61 EP", desc: "Setelah diculik oleh raja mafia, Bella yang polos dipaksa untuk..." }
+            { 
+                bookId: "41000104882", 
+                judul: "Gadis Lugu Penakluk Raja Mafia", 
+                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000104882/41000104882.jpg", 
+                ep: "61 EP", desc: "Setelah diculik oleh raja mafia, Bella yang polos dipaksa untuk menandatangani kontrak..." 
+            },
+            { 
+                judul: "Cerita Cinta Cheerleader", 
+                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119583/41000119583.jpg", 
+                ep: "57 EP", desc: "Jane terpaksa tinggal bersama musuh bebuyutannya sejak kecil, William...",
+                bookId: "41000119583"
+            },
+            { 
+                judul: "Ciumanmu Mengubah Duniaku", 
+                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000119254/41000119254.jpg", 
+                ep: "53 EP", desc: "Takdir mempertemukan Gabrielle dengan Kyle, seorang CEO tampan...",
+                bookId: "41000119254"
+            },
+            { 
+                judul: "Bangkit dan Berkuasa", 
+                cover: "https://hwztchapter.dramaboxdb.com/data/cppartner/4x1/41x0/410x0/41000107468/41000107468.jpg", 
+                ep: "90 EP", desc: "Rendy yang diremehkan tiba-tiba diajak menikah oleh Ratu Bisnis dan CEO cantik...",
+                bookId: "41000107468"
+            }
         ];
 
         const container = document.getElementById('row-foryou');
@@ -131,7 +145,6 @@
             container.appendChild(card);
         });
 
-        // --- MENGHUBUNGI API BACKEND VERCEL BUATANMU ---
         const modal = document.getElementById('videoModal');
         const player = document.getElementById('video-player');
         const sumberVideo = document.getElementById('video-source');
@@ -145,7 +158,6 @@
             statusAPI.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Sedang menghubungi Server...`;
 
             try {
-                // Memanggil file /api/get-video.js
                 const response = await fetch(`/api/get-video?bookId=${bookId}&episode=1`);
                 const data = await response.json();
 
